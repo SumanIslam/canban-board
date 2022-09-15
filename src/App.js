@@ -1,9 +1,9 @@
-import CanbanBoard from "./component/canban-board/canban-board.component";
+import KanbanBoard from "./component/canban-board/canban-board.component";
 
 function App() {
   return (
     <>
-      <CanbanBoard />
+      <KanbanBoard />
     </>
   );
 }

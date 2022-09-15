@@ -1,127 +1,80 @@
-import react from 'react';
+import { useState } from 'react';
+
+// dependencies
+import { v4 as uuidv4 } from 'uuid';
 
 // styles
-import '../../styles/style.css'
+import '../../styles/style.css';
 
-const CanbanBoard = () => {
+const KanbanBoard = () => {
+	const [backlogDragItemList, setBacklogDragItemList] = useState(['testing', 'testing', 'testing']);
+	const [progressDragItemList, setProgressDragItemList] = useState(['testing', 'testing', 'testing']);
+	const [completeDragItemList, setCompleteDragItemList] = useState(['testing', 'testing', 'testing']);
+	const [onholdDragItemList, setOnholdDragItemList] = useState(['testing', 'testing', 'testing']);
+
+	const dataWithDragItemList = [
+			{
+				title: 'Backlog',
+				class: 'backlog',
+				dragItemList: backlogDragItemList,
+			},
+			{
+				title: 'Progress',
+				class: 'progress',
+				dragItemList: progressDragItemList,
+			},
+			{
+				title: 'Complete',
+				class: 'complete',
+				dragItemList: completeDragItemList,
+			},
+			{
+				title: 'On Hold',
+				class: 'on-hold',
+				dragItemList: onholdDragItemList,
+			},
+	];
+
   return (
 		<div>
-			<h1 class='main-title'>Kanban Board</h1>
-			{/* dragg container */}
+			<h1 className='main-title'>Kanban Board</h1>
+			{/* Drag and drop container */}
+			
 			<div className='drag-container'>
 				<ul className='drag-list'>
-					{/* backlog column */}
-					<li className='drag-column backlog-column'>
-						<span className='header'>
-							<h1>Backlog</h1>
-						</span>
-						{/* backlog content */}
-						<div id='backlog-content' className='custom-scroll'>
-							<ul className='drag-item-list' id='backlog-list'>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-							</ul>
-						</div>
-						{/* Add button group */}
-						<div className='add-btn-group'>
-							<div className='add-btn'>
-								<span className='plus-sign'>+</span>
-								<span>Add Item</span>
+					{dataWithDragItemList.map((data) => (
+						// column
+						<li key={uuidv4()} className={`drag-column ${data.class}-column`}>
+							<span className='header'>
+								<h1>{data.title}</h1>
+							</span>
+							{/* content */}
+							<div id={`${data.class}-content`} className='custom-scroll'>
+								<ul className='drag-item-list' id={`${data.class}-list`}>
+									{data.dragItemList.map((item) => (
+										<li key={uuidv4()} className='drag-item'>{item}</li>
+									))}
+								</ul>
 							</div>
-							<div className='add-btn solid'>
-								<span>Save Item</span>
+							{/* Add Button Group */}
+							<div  className='add-btn-group'>
+								<div className='add-btn'>
+									<span className='plus-sign'>+</span>
+									<span>Add Item</span>
+								</div>
+								<div className="add-btn solid">
+									<span>Save Item</span>
+								</div>
+								<div className='add-container'>
+									<div className='add-item'></div>
+								</div>
 							</div>
-							<div className='add-container'>
-								<div className='add-item'></div>
-							</div>
-						</div>
-					</li>
-					{/* progress column */}
-					<li className='drag-column progress-column'>
-						<span className='header'>
-							<h1>Progress</h1>
-						</span>
-						{/* progress content */}
-						<div id='progress-content' className='custom-scroll'>
-							<ul className='drag-item-list' id='progress-list'>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-							</ul>
-						</div>
-						{/* Add button group */}
-						<div className='add-btn-group'>
-							<div className='add-btn'>
-								<span className='plus-sign'>+</span>
-								<span>Add Item</span>
-							</div>
-							<div className='add-btn solid'>
-								<span>Save Item</span>
-							</div>
-							<div className='add-container'>
-								<div className='add-item'></div>
-							</div>
-						</div>
-					</li>
-					{/* complete column */}
-					<li className='drag-column complete-column'>
-						<span className='header'>
-							<h1>Complete</h1>
-						</span>
-						{/* complete content */}
-						<div id='complete-content' className='custom-scroll'>
-							<ul className='drag-item-list' id='complete-list'>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-							</ul>
-						</div>
-						{/* Add button group */}
-						<div className='add-btn-group'>
-							<div className='add-btn'>
-								<span className='plus-sign'>+</span>
-								<span>Add Item</span>
-							</div>
-							<div className='add-btn solid'>
-								<span>Save Item</span>
-							</div>
-							<div className='add-container'>
-								<div className='add-item'></div>
-							</div>
-						</div>
-					</li>
-					{/* on hold column */}
-					<li className='drag-column on-hold-column'>
-						<span className='header'>
-							<h1>On Hold</h1>
-						</span>
-						{/* on hold content */}
-						<div id='on-hold-content' className='custom-scroll'>
-							<ul className='drag-item-list' id='on-hold-list'>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-								<li className='drag-item'>Testing</li>
-							</ul>
-						</div>
-						{/* Add button group */}
-						<div className='add-btn-group'>
-							<div className='add-btn'>
-								<span className='plus-sign'>+</span>
-								<span>Add Item</span>
-							</div>
-							<div className='add-btn solid'>
-								<span>Save Item</span>
-							</div>
-							<div className='add-container'>
-								<div className='add-item'></div>
-							</div>
-						</div>
-					</li>
+						</li>
+					))}
 				</ul>
 			</div>
 		</div>
 	);
 }
 
-export default CanbanBoard;
+export default KanbanBoard;
