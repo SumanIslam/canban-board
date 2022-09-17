@@ -7,32 +7,56 @@ import { v4 as uuidv4 } from 'uuid';
 import '../../styles/style.css';
 
 const KanbanBoard = () => {
-	const [backlogDragItemList, setBacklogDragItemList] = useState(['testing', 'testing', 'testing']);
-	const [progressDragItemList, setProgressDragItemList] = useState(['testing', 'testing', 'testing']);
-	const [completeDragItemList, setCompleteDragItemList] = useState(['testing', 'testing', 'testing']);
-	const [onholdDragItemList, setOnholdDragItemList] = useState(['testing', 'testing', 'testing']);
+	const backlogListArray = JSON.parse(localStorage.getItem('backlogItems')) || ['Release the course', 'Sit back and relax'];
+	const progressListArray = JSON.parse(localStorage.getItem('progressItems')) || ['Work on projects', 'Listen to music'];
+	const completeListArray = JSON.parse(localStorage.getItem('completeItems')) || ['Being cool', 'Getting stuff done'];
+	const onHoldListArray = JSON.parse(localStorage.getItem('onHoldItems')) || ['Being uncool'];
+
+	const [backlogDragItemList, setBacklogDragItemList] =
+		useState(backlogListArray);
+	const [progressDragItemList, setProgressDragItemList] =
+		useState(progressListArray);
+	const [completeDragItemList, setCompleteDragItemList] =
+		useState(completeListArray);
+	const [onholdDragItemList, setOnholdDragItemList] = useState(onHoldListArray);
+
+	// updated saved columns
+	function updatedSavedColumns() {
+		const listArrays = [backlogListArray, progressListArray, completeListArray, onHoldListArray];
+		const arrayNames = ['backlog', 'progress', 'complete', 'onHold'];
+
+		arrayNames.forEach((arrayName, index) => {
+			localStorage.setItem(`${arrayName}Items`, JSON.stringify(listArrays[index]))
+		});
+	}
+
+	updatedSavedColumns();
 
 	const dataWithDragItemList = [
-			{
-				title: 'Backlog',
-				class: 'backlog',
-				dragItemList: backlogDragItemList,
-			},
-			{
-				title: 'Progress',
-				class: 'progress',
-				dragItemList: progressDragItemList,
-			},
-			{
-				title: 'Complete',
-				class: 'complete',
-				dragItemList: completeDragItemList,
-			},
-			{
-				title: 'On Hold',
-				class: 'on-hold',
-				dragItemList: onholdDragItemList,
-			},
+		{
+			title: 'Backlog',
+			class: 'backlog',
+			id: 'backlog',
+			dragItemList: backlogDragItemList,
+		},
+		{
+			title: 'Progress',
+			class: 'progress',
+			id: 'progress',
+			dragItemList: progressDragItemList,
+		},
+		{
+			title: 'Complete',
+			class: 'complete',
+			id: 'complete',
+			dragItemList: completeDragItemList,
+		},
+		{
+			title: 'On Hold',
+			class: 'on-hold',
+			id: 'on-hold',
+			dragItemList: onholdDragItemList,
+		},
 	];
 
   return (
